@@ -1,6 +1,7 @@
 package teretana;
 
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Main {
 
@@ -46,60 +47,150 @@ public class Main {
                 System.out.println("Clan je uspesno dodat!");
                 break;
 
-            case 2:
-                System.out.print("Ime trenera: ");
-                ime = unos.nextLine();
 
-                System.out.print("Prezime trenera: ");
-                prezime = unos.nextLine();
+case 2:
+    System.out.print("Ime trenera: ");
+    ime = unos.nextLine();
 
-                System.out.print("Specijalnost trenera: ");
-                String specijalnost = unos.nextLine();
+    System.out.print("Prezime trenera: ");
+    prezime = unos.nextLine();
 
-                Trener trener = new Trener(ime, prezime, specijalnost);
-                teretana.dodajOsobu(trener);
+    System.out.println("Izaberite specijalnost trenera:");
+    System.out.println("1. Fitness");
+    System.out.println("2. Bodybuilding");
+    System.out.println("3. Kardio");
+    System.out.println("4. Funkcionalni trening");
+    System.out.print("Izbor: ");
 
-                System.out.println("Trener je uspesno dodat!");
-                break;
+    int izborSpecijalnosti = unos.nextInt();
+    unos.nextLine();
+
+    String specijalnost="";
+
+    switch (izborSpecijalnosti) {
+        case 1:
+            specijalnost = "Fitness";
+            break;
+        case 2:
+            specijalnost = "Bodybuilding";
+            break;
+        case 3:
+            specijalnost = "Kardio";
+            break;
+        case 4:
+            specijalnost = "Funkcionalni trening";
+            break;
+        default:
+            System.out.println("Nepostojeca specijalnost!");
+            break;
+    }
+
+    if (izborSpecijalnosti < 1 || izborSpecijalnosti > 4) {
+        break;
+    }
+
+    Trener trener = new Trener(ime, prezime, specijalnost);
+    teretana.dodajOsobu(trener);
+
+    System.out.println("Trener je uspesno dodat!");
+    break;
 
             case 3:
                 teretana.prikaziSveOsobe();
                 break;
 
-            case 4:
-                System.out.print("Naziv treninga: ");
-                String naziv = unos.nextLine();
 
-                System.out.print("Trajanje treninga u minutima: ");
-                int trajanje = unos.nextInt();
-                unos.nextLine();
 
-                System.out.print("Ime trenera koji vodi trening: ");
-                String imeTrenera = unos.nextLine();
+case 4:
+    ArrayList<Trener> treneri = new ArrayList<>();
 
-                System.out.print("Prezime trenera: ");
-                String prezimeTrenera = unos.nextLine();
+    for (Osoba osoba : teretana.getSveOsobe()) {
+        if (osoba instanceof Trener) {
+            treneri.add((Trener) osoba);
+        }
+    }
 
-                Trener izabraniTrener = null;
+    if (treneri.isEmpty()) {
+        System.out.println("Nema dodatih trenera! Prvo dodajte trenera.");
+        break;
+    }
 
-                for (Osoba osoba : getOsobe(teretana)) {
-                    if (osoba instanceof Trener &&
-                        osoba.getIme().equalsIgnoreCase(imeTrenera) &&
-                        osoba.getPrezime().equalsIgnoreCase(prezimeTrenera)) {
+    System.out.println("Izaberite vrstu treninga:");
+    System.out.println("1. Trening grudi");
+    System.out.println("2. Trening ledja");
+    System.out.println("3. Trening nogu");
+    System.out.println("4. Trening ramena");
+    System.out.println("5. Trening ruku");
+    System.out.println("6. Kardio trening");
+    System.out.println("7. Full Body trening");
+    System.out.print("Izbor: ");
 
-                        izabraniTrener = (Trener) osoba;
-                        break;
-                    }
-                }
+    int izborTreninga = unos.nextInt();
+    unos.nextLine();
 
-                if (izabraniTrener != null) {
-                    Trening trening = new Trening(naziv, trajanje, izabraniTrener);
-                    teretana.dodajTrening(trening);
-                    System.out.println("Trening je uspesno dodat!");
-                } else {
-                    System.out.println("Trener nije pronadjen!");
-                }
-                break;
+    String naziv="";
+
+    switch (izborTreninga) {
+        case 1:
+            naziv = "Trening grudi";
+            break;
+        case 2:
+            naziv = "Trening ledja";
+            break;
+        case 3:
+            naziv = "Trening nogu";
+            break;
+        case 4:
+            naziv = "Trening ramena";
+            break;
+        case 5:
+            naziv = "Trening ruku";
+            break;
+        case 6:
+            naziv = "Kardio trening";
+            break;
+        case 7:
+            naziv = "Full Body trening";
+            break;
+        default:
+            System.out.println("Nepostojeca vrsta treninga!");
+            break;
+    }
+
+    if (izborTreninga < 1 || izborTreninga > 7) {
+        break;
+    }
+
+    System.out.print("Trajanje treninga u minutima: ");
+    int trajanje = unos.nextInt();
+    unos.nextLine();
+
+    System.out.println("Izaberite trenera:");
+
+    for (int i = 0; i < treneri.size(); i++) {
+        System.out.println((i + 1) + ". " +
+            treneri.get(i).getIme() + " " +
+            treneri.get(i).getPrezime());
+    }
+
+    System.out.print("Izbor trenera: ");
+    int izborTrenera = unos.nextInt();
+    unos.nextLine();
+
+    if (izborTrenera < 1 || izborTrenera > treneri.size()) {
+        System.out.println("Pogresan izbor trenera!");
+        break;
+    }
+
+    Trener izabraniTrener = treneri.get(izborTrenera - 1);
+
+    Trening trening = new Trening(naziv, trajanje, izabraniTrener);
+    teretana.dodajTrening(trening);
+
+    System.out.println("Trening je uspesno dodat!");
+    break;
+
+
 
             case 5:
                 teretana.prikaziSveTreninge();
@@ -185,7 +276,5 @@ public class Main {
         unos.close();
     }
 
-    private static java.util.ArrayList<Osoba> getOsobe(Teretana teretana) {
-        return teretana.getSveOsobe();
-    }
+   
 }
