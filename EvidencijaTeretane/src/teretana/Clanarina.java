@@ -38,15 +38,19 @@ public class Clanarina implements Placanjem {
         this.clan = clan;
     }
 
+
     @Override
     public void izvrsiPlacanje(double iznos) {
-        if (iznos < this.iznos) {
-            System.out.println("Nemate dovoljno novca za placanje!");
-        } else {
-            placena = true;
-            System.out.println("Clanarina je uspesno placena!");
-        }
+    	if (placena) {
+    		System.out.println("Clanarina je vec placena!");
+    } else if (iznos < this.iznos) {
+        	System.out.println("Nemate dovoljno novca za placanje!");
+    } else {
+        	placena = true;
+        	System.out.println("Clanarina je uspesno placena!");
     }
+}
+
 
     public void prikaziClanarinu() {
         System.out.println("Clan: " + clan.getIme() + " " + clan.getPrezime());

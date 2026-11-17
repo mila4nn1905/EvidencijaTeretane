@@ -21,6 +21,10 @@ public class Teretana {
         osobe.add(osoba);
     }
     
+    public ArrayList<Clanarina> getSveClanarine() {
+        return clanarine;
+    }
+    
     public ArrayList<Osoba> getSveOsobe() {
         return osobe;
     }
