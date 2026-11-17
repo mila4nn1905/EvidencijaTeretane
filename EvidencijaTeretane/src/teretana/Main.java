@@ -105,39 +105,46 @@ public class Main {
                 teretana.prikaziSveTreninge();
                 break;
 
+
             case 6:
-            	System.out.print("Unesite broj clanske karte: ");
-            	int brojKarte = unos.nextInt();
+            		System.out.print("Unesite broj clanske karte: ");
+            		int brojKarte = unos.nextInt();
+            		Clan izabraniClan = null;
 
-            	Clan izabraniClan = null;
+            		for (Osoba osoba : teretana.getSveOsobe()) {
+            			if (osoba instanceof Clan) {
+            				Clan c = (Clan) osoba;
 
-            	for (Osoba osoba : teretana.getSveOsobe()) {
-            	    if (osoba instanceof Clan) {
-            	        Clan c = (Clan) osoba;
+            				if (c.getBrojClanskeKarte() == brojKarte) {
+            					izabraniClan = c;
+               break;
+            }
+        }
+    }
 
-            	        if (c.getBrojClanskeKarte() == brojKarte) {
-            	            izabraniClan = c;
-            	            break;
-            	        }
-            	    }
-            	}
+    if (izabraniClan == null) {
+        System.out.println("Clan nije pronadjen!");
+    } else {
+        System.out.print("Unesite iznos clanarine: ");
+        double iznos = unos.nextDouble();
 
-            	if (izabraniClan == null) {
-            	    System.out.println("Clan nije pronadjen!");
-            	} else {
-            	    System.out.print("Unesite iznos clanarine: ");
-            	    double iznos = unos.nextDouble();
+        Clanarina clanarina = new Clanarina(iznos, izabraniClan);
 
-            	    Clanarina clanarina = new Clanarina(iznos, izabraniClan);
+        System.out.print("Unesite iznos koji placate: ");
+        double uplata = unos.nextDouble();
 
-            	    System.out.print("Unesite iznos koji placate: ");
-            	    double uplata = unos.nextDouble();
+        clanarina.izvrsiPlacanje(uplata);
 
-            	    clanarina.izvrsiPlacanje(uplata);
-            	    teretana.dodajClanarinu(clanarina);
-            	    clanarina.prikaziClanarinu();
-            	}
-            	break;
+        if (uplata >= iznos) {
+            teretana.dodajClanarinu(clanarina);
+            clanarina.prikaziClanarinu();
+        } else {
+            System.out.println("Uplata nije dovoljna! Clanarina nije evidentirana.");
+        }
+    }
+
+    break;
+
             	
             case 7:
                 teretana.prikaziSveClanarine();
